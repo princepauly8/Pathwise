@@ -1,0 +1,352 @@
+{
+  "entities": {
+    "StudentAccount": {
+      "title": "Student Account",
+      "description": "Private authenticated student profile containing selected class level, syllabus board (CBSE, ICSE, State Board, etc.), subjects, learning goal, daily study pace, and study timetable.",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "description": "Firebase Auth UID of the student owner.",
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "name": {
+          "type": "string",
+          "description": "Student display name.",
+          "minLength": 2,
+          "maxLength": 80
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "Verified account email address (private PII).",
+          "maxLength": 160
+        },
+        "classLevel": {
+          "type": "string",
+          "description": "Selected academic class or grade level.",
+          "minLength": 2,
+          "maxLength": 40
+        },
+        "syllabus": {
+          "type": "string",
+          "description": "Selected curriculum board or syllabus (e.g., CBSE, ICSE, State Board, IB, IGCSE).",
+          "minLength": 2,
+          "maxLength": 60
+        },
+        "language": {
+          "type": "string",
+          "description": "Preferred study language (e.g., English, Malayalam, Hindi, Tamil, Spanish, etc.).",
+          "minLength": 2,
+          "maxLength": 60
+        },
+        "theme": {
+          "type": "string",
+          "description": "Preferred interface color theme.",
+          "enum": ["light", "dark", "system"]
+        },
+        "subjects": {
+          "type": "array",
+          "description": "Bounded list of 1 to 8 selected subjects."
+        },
+        "goal": {
+          "type": "string",
+          "description": "Primary study objective.",
+          "enum": ["foundations", "exam_prep", "deep_mastery"]
+        },
+        "dailyMinutes": {
+          "type": "integer",
+          "description": "Daily study commitment in minutes.",
+          "enum": [20, 45, 90]
+        },
+        "timetable": {
+          "type": "array",
+          "description": "Optional bounded weekly study timetable entries (0 to 28 slots)."
+        },
+        "completedDates": {
+          "type": "array",
+          "description": "Optional bounded list of unique YYYY-MM-DD local calendar dates on which the student completed at least one learning module (0 to 365 dates)."
+        },
+        "subscription": {
+          "type": "object",
+          "description": "Student subscription state tracking the 1-month (30-day) free trial, the 7-year ₹200 INR Scholar Pass, and optional ₹0 referral/discount code (PRINCE) redemption."
+        },
+        "reminders": {
+          "type": "object",
+          "description": "Student study notification preferences including daily study reminder time (HH:MM), sound chime, browser alert preference, and up to 20 scheduled topic completion reminders."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when the student profile was created."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp of the latest profile update."
+        }
+      },
+      "required": [
+        "uid",
+        "name",
+        "email",
+        "classLevel",
+        "syllabus",
+        "subjects",
+        "goal",
+        "dailyMinutes",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "SubjectPathRecord": {
+      "title": "Subject Learning Path",
+      "description": "Specialized learning path for a single subject belonging to an authenticated student.",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "description": "Owner Firebase Auth UID.",
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "subjectKey": {
+          "type": "string",
+          "description": "Normalized URL-safe document identifier for the subject.",
+          "minLength": 1,
+          "maxLength": 80,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "subject": {
+          "type": "string",
+          "description": "Human-readable subject name.",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "domain": {
+          "type": "string",
+          "description": "Academic domain classification.",
+          "enum": ["stem", "humanities"]
+        },
+        "overview": {
+          "type": "string",
+          "description": "Short curriculum summary for the subject.",
+          "maxLength": 600
+        },
+        "focusStrategy": {
+          "type": "string",
+          "description": "Recommended study approach for this subject.",
+          "maxLength": 600
+        },
+        "adaptationNote": {
+          "type": "string",
+          "description": "Optional student preference note used to tailor the path.",
+          "maxLength": 300
+        },
+        "generatedByAi": {
+          "type": "boolean",
+          "description": "Whether this path was generated by the AI curriculum planner."
+        },
+        "modules": {
+          "type": "array",
+          "description": "Bounded list of 1 to 8 staged learning modules."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when the subject path was created."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when the subject path was last updated."
+        }
+      },
+      "required": [
+        "uid",
+        "subjectKey",
+        "subject",
+        "domain",
+        "overview",
+        "focusStrategy",
+        "generatedByAi",
+        "modules",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "TutorThreadRecord": {
+      "title": "Subject AI Tutor Thread",
+      "description": "Bounded Socratic AI tutor conversation history for a specific student subject.",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "description": "Owner Firebase Auth UID.",
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "subjectKey": {
+          "type": "string",
+          "description": "Normalized URL-safe subject identifier.",
+          "minLength": 1,
+          "maxLength": 80,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "subject": {
+          "type": "string",
+          "description": "Human-readable subject name.",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "messages": {
+          "type": "array",
+          "description": "Bounded list of up to 40 tutor conversation messages."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when the thread was created."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when the thread was updated."
+        }
+      },
+      "required": [
+        "uid",
+        "subjectKey",
+        "subject",
+        "messages",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "YouTubeClassRecord": {
+      "title": "YouTube Class & Quiz Record",
+      "description": "Saved YouTube study class with generated and student-added quiz questions in the student's chosen language.",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "description": "Owner Firebase Auth UID.",
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "classId": {
+          "type": "string",
+          "description": "Normalized URL-safe document identifier for the saved YouTube class.",
+          "minLength": 1,
+          "maxLength": 80,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "videoId": {
+          "type": "string",
+          "description": "11-character YouTube video identifier.",
+          "minLength": 11,
+          "maxLength": 11,
+          "pattern": "^[a-zA-Z0-9_\\-]{11}$"
+        },
+        "url": {
+          "type": "string",
+          "description": "Canonical YouTube watch URL.",
+          "minLength": 10,
+          "maxLength": 300
+        },
+        "title": {
+          "type": "string",
+          "description": "Title of the YouTube class.",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "channelName": {
+          "type": "string",
+          "description": "YouTube creator or channel name.",
+          "maxLength": 120
+        },
+        "subject": {
+          "type": "string",
+          "description": "Academic subject linked to the video class.",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "language": {
+          "type": "string",
+          "description": "Language used for the class summary and quiz questions.",
+          "minLength": 2,
+          "maxLength": 60
+        },
+        "summary": {
+          "type": "string",
+          "description": "Concise summary of the YouTube class.",
+          "maxLength": 1200
+        },
+        "keyTakeaways": {
+          "type": "array",
+          "description": "Bounded list of up to 8 key takeaways from the class."
+        },
+        "questions": {
+          "type": "array",
+          "description": "Bounded list of up to 60 AI-generated and student-added quiz questions."
+        },
+        "bestQuizScore": {
+          "type": "integer",
+          "description": "Optional best quiz score percentage (0 to 100)."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when the YouTube class was saved."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when the YouTube class or its questions were updated."
+        }
+      },
+      "required": [
+        "uid",
+        "classId",
+        "videoId",
+        "url",
+        "title",
+        "channelName",
+        "subject",
+        "language",
+        "summary",
+        "keyTakeaways",
+        "questions",
+        "createdAt",
+        "updatedAt"
+      ]
+    }
+  },
+  "firestore": {
+    "/students/{userId}": {
+      "schema": {
+        "$ref": "#/entities/StudentAccount"
+      },
+      "description": "Private student account document storing class level, syllabus board, preferred language, subjects, goal, daily study pace, study streak dates, and study timetable."
+    },
+    "/students/{userId}/subjectPaths/{subjectKey}": {
+      "schema": {
+        "$ref": "#/entities/SubjectPathRecord"
+      },
+      "description": "Per-subject specialized learning paths, notes, short notes, shortcuts, quizzes, and module mastery progress for a student."
+    },
+    "/students/{userId}/tutorThreads/{subjectKey}": {
+      "schema": {
+        "$ref": "#/entities/TutorThreadRecord"
+      },
+      "description": "Per-subject bounded AI study tutor conversation history for a student."
+    },
+    "/students/{userId}/youtubeClasses/{classId}": {
+      "schema": {
+        "$ref": "#/entities/YouTubeClassRecord"
+      },
+      "description": "Saved YouTube classes with generated and custom-added quiz questions in the student's chosen language."
+    }
+  }
+}

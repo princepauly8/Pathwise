@@ -1,0 +1,6 @@
+{
+  "name": "Pathwise — AI Study Companion",
+  "description": "Personalized AI study companion generating class-calibrated learning paths, interactive lessons, adaptive quizzes, and Socratic tutoring for each student's selected subjects.",
+  "requestFramePermissions": ["camera", "microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

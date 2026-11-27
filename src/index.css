@@ -1,0 +1,104 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  color-scheme: light;
+  --pw-bg: #F8FAFC;
+  --pw-surface: #FFFFFF;
+  --pw-surface-muted: #F1F5F9;
+  --pw-surface-subtle: #F8FAFC;
+  --pw-border: #E2E8F0;
+  --pw-border-strong: #CBD5E1;
+  --pw-text: #0F172A;
+  --pw-text-secondary: #334155;
+  --pw-text-muted: #64748B;
+  --pw-accent: #0284C7;
+  --pw-accent-hover: #0369A1;
+  --pw-accent-soft: rgba(2, 132, 199, 0.1);
+  --pw-success: #059669;
+  --pw-warning: #D97706;
+  --pw-danger: #DC2626;
+}
+
+.dark {
+  color-scheme: dark;
+  --pw-bg: #0B1120;
+  --pw-surface: #111827;
+  --pw-surface-muted: #1E293B;
+  --pw-surface-subtle: #0F172A;
+  --pw-border: #1E293B;
+  --pw-border-strong: #334155;
+  --pw-text: #F1F5F9;
+  --pw-text-secondary: #CBD5E1;
+  --pw-text-muted: #94A3B8;
+  --pw-accent: #38BDF8;
+  --pw-accent-hover: #0EA5E9;
+  --pw-accent-soft: rgba(56, 189, 248, 0.14);
+  --pw-success: #34D399;
+  --pw-warning: #FBBF24;
+  --pw-danger: #F87171;
+}
+
+@theme inline {
+  --font-display: "Fraunces", Georgia, serif;
+  --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, monospace;
+  --color-pw-bg: var(--pw-bg);
+  --color-pw-surface: var(--pw-surface);
+  --color-pw-surface-muted: var(--pw-surface-muted);
+  --color-pw-surface-subtle: var(--pw-surface-subtle);
+  --color-pw-border: var(--pw-border);
+  --color-pw-border-strong: var(--pw-border-strong);
+  --color-pw-text: var(--pw-text);
+  --color-pw-text-secondary: var(--pw-text-secondary);
+  --color-pw-text-muted: var(--pw-text-muted);
+  --color-pw-accent: var(--pw-accent);
+  --color-pw-accent-hover: var(--pw-accent-hover);
+  --color-pw-success: var(--pw-success);
+  --color-pw-warning: var(--pw-warning);
+  --color-pw-danger: var(--pw-danger);
+}
+
+@layer base {
+  html {
+    font-family: var(--font-sans);
+    color: var(--pw-text);
+    background-color: var(--pw-bg);
+    scroll-behavior: smooth;
+  }
+
+  .dark body {
+    letter-spacing: 0.005em;
+  }
+
+  h1, h2, .font-display {
+    font-family: var(--font-display);
+    text-wrap: balance;
+  }
+
+  button, a, input, select, textarea {
+    outline-color: var(--pw-accent);
+  }
+
+  button:focus-visible,
+  a:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible {
+    outline: 2px solid var(--pw-accent);
+    outline-offset: 2px;
+  }
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
